@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CineConexões — Jogo do Repertório</title>
+
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --card: #141824;
+      --text: #e9ecf1;
+      --muted: #a8b0c2;
+      --accent: #7c5cff;
+      --accent2: #27d3a2;
+      --danger: #ff4d6d;
+      --border: rgba(255,255,255,0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top, #15192b, var(--bg));
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 30px 20px 10px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      margin-top: 10px;
+      color: var(--muted);
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+
+    main {
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: rgba(20,24,36,0.9);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0px 10px 30px rgba(0,0,0,0.25);
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+    }
+
+    .card p {
+      color: var(--muted);
+      line-height: 1.5;
+      margin-top: 6px;
+    }
+
+    .movie-title {
+      font-size: 1.4rem;
+      margin-bottom: 5px;
+    }
+
+    .movie-meta {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    button {
+      border: none;
+      padding: 12px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.2s;
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      border-color: rgba(124,92,255,0.6);
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, var(--accent), #4c8dff);
+      border: none;
+      color: white;
+      text-align: center;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    .btn-danger {
+      background: linear-gradient(90deg, var(--danger), #ff884d);
+      border: none;
+      color: white;
+      text-align: center;
+    }
+
+    .score-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+    }
+
+    .score-box span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .score-box strong {
+      color: var(--text);
+    }
+
+    .feedback {
+      margin-top: 15px;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      line-height: 1.5;
+    }
+
+    .feedback.good {
+      border-color: rgba(39,211,162,0.5);
+    }
+
+    .feedback.bad {
+      border-color: rgba(255,77,109,0.5);
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      background: rgba(124,92,255,0.2);
+      border: 1px solid rgba(124,92,255,0.4);
+      color: var(--text);
+      margin-top: 10px;
+    }
+
+    .small {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 800px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>🎬 CineConexões — Jogo do Repertório</h1>
+    <p>
+      Relacione o filme com o eixo temático correto.  
+      O objetivo é treinar repertório cultural e argumentativo (tipo ENEM, debate e vida adulta).
+    </p>
+  </header>
+
+  <main>
+    <div class="card score-box">
+      <span>Rodada: <strong id="round">1</strong> / 20</span>
+      <span>Pontuação: <strong id="score">0</strong></span>
+      <span>Acertos: <strong id="hits">0</strong></span>
+      <span>Erros: <strong id="miss">0</strong></span>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>🎞️ Filme da rodada</h2>
+        <div class="movie-title" id="movieTitle">Carregando...</div>
+        <div class="movie-meta" id="movieMeta"></div>
+        <p id="movieDesc"></p>
+        <div class="tag" id="movieHintTag">Dica: Clique em "Mostrar pista"</div>
+
+        <div style="margin-top:15px; display:flex; gap:10px; flex-wrap:wrap;">
+          <button onclick="showHint()">🔍 Mostrar pista</button>
+          <button onclick="showAnswer()" class="btn-danger">👀 Revelar resposta</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🧠 Escolha o eixo temático</h2>
+        <p class="small">
+          Escolha o eixo que melhor representa a crítica social ou a ideia principal do filme.
+        </p>
+        <div class="options" id="options"></div>
+        <div id="feedbackBox"></div>
+
+        <div style="margin-top:15px;">
+          <button class="btn-primary" onclick="nextMovie()">➡️ Próximo filme</button>
+          <button onclick="restartGame()">🔁 Reiniciar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h2>📚 O que esse jogo treina?</h2>
+      <p>
+        Esse jogo desenvolve repertório cultural e habilidade argumentativa:  
+        você aprende a associar filmes com temas sociais e usar isso como referência em redação, debates e trabalhos.
+      </p>
+      <p class="small">
+        Exemplo de uso em redação:  
+        “O filme <b>Parasita</b> evidencia a desigualdade estrutural entre classes sociais, demonstrando como o privilégio define oportunidades.”
+      </p>
+    </div>
+
+  </main>
+
+  <footer>
+    CineConexões — protótipo educacional | feito pra parecer que você estudou cinema e sociologia ao mesmo tempo.
+  </footer>
+
+  <script>
+    const movies = [
+      {
+        title: "Parasita",
+        year: 2019,
+        country: "Coreia do Sul",
+        description: "Uma família pobre se infiltra na casa de uma família rica, revelando desigualdades sociais profundas.",
+        axis: "Desigualdade Social",
+        hint: "Pobreza vs luxo, escadas, privilégios invisíveis.",
+        explanation: "O filme mostra como a diferença de classe determina oportunidades e cria tensões sociais."
+      },
+      {
+        title: "Wall-E",
+        year: 2008,
+        country: "EUA",
+        description: "Um robô solitário vive em uma Terra abandonada, tomada pelo lixo e pelo consumismo humano.",
+        axis: "Meio Ambiente e Sustentabilidade",
+        hint: "Planeta destruído por lixo e consumo exagerado.",
+        explanation: "A narrativa critica o consumismo e alerta sobre a destruição ambiental e descarte irresponsável."
+      },
+      {
+        title: "Coringa",
+        year: 2019,
+        country: "EUA",
+        description: "Um homem marginalizado enfrenta abandono social e colapsa psicologicamente em uma cidade violenta.",
+        axis: "Saúde Mental e Exclusão Social",
+        hint: "Negligência, sofrimento psicológico e isolamento.",
+        explanation: "O filme mostra como abandono institucional e exclusão podem agravar crises mentais e gerar violência."
+      },
+      {
+        title: "O Dilema das Redes",
+        year: 2020,
+        country: "EUA",
+        description: "Documentário sobre como redes sociais manipulam comportamento e lucram com atenção.",
+        axis: "Tecnologia e Controle Social",
+        hint: "Algoritmos, vício, manipulação.",
+        explanation: "O filme expõe como tecnologia influencia opiniões, decisões e saúde mental através de algoritmos."
+      },
+      {
+        title: "Jogos Vorazes",
+        year: 2012,
+        country: "EUA",
+        description: "Uma jovem enfrenta um sistema autoritário onde a violência vira entretenimento e controle político.",
+        axis: "Política e Autoritarismo",
+        hint: "Estado controlador, propaganda, opressão.",
+        explanation: "O filme retrata um regime autoritário que usa medo e espetáculo para manter poder."
+      },
+      {
+        title: "Cidade de Deus",
+        year: 2002,
+        country: "Brasil",
+        description: "A história de jovens em uma favela marcada por violência, pobreza e ausência do Estado.",
+        axis: "Violência e Segurança Pública",
+        hint: "Crime organizado e abandono social.",
+        explanation: "O filme mostra como desigualdade e falta de políticas públicas alimentam violência urbana."
+      },
+      {
+        title: "Que Horas Ela Volta?",
+        year: 2015,
+        country: "Brasil",
+        description: "Uma empregada doméstica vive as barreiras sociais ao receber a filha na casa dos patrões.",
+        axis: "Trabalho e Exploração",
+        hint: "Empregada doméstica, hierarquia e classe.",
+        explanation: "O filme denuncia relações de trabalho marcadas por desigualdade e submissão estrutural."
+      },
+      {
+        title: "12 Anos de Escravidão",
+        year: 2013,
+        country: "EUA",
+        description: "Um homem negro livre é sequestrado e vendido como escravo, sofrendo brutalidade e racismo.",
+        axis: "Racismo e Direitos Civis",
+        hint: "Escravidão, violência racial, desumanização.",
+        explanation: "O filme expõe o racismo estrutural e a brutalidade histórica da escravidão."
+      },
+      {
+        title: "A Onda",
+        year: 2008,
+        country: "Alemanha",
+        description: "Um professor cria um experimento social e vê seus alunos adotarem comportamentos autoritários.",
+        axis: "Psicologia de Massas e Fascismo",
+        hint: "Grupo, obediência, autoritarismo crescente.",
+        explanation: "O filme mostra como ideologias autoritárias podem surgir rapidamente por manipulação coletiva."
+      },
+      {
+        title: "Spotlight",
+        year: 2015,
+        country: "EUA",
+        description: "Jornalistas investigam abusos sexuais encobertos por instituições poderosas.",
+        axis: "Mídia e Poder Institucional",
+        hint: "Jornalismo investigativo e corrupção institucional.",
+        explanation: "O filme destaca o papel da mídia em revelar abusos e enfrentar instituições poderosas."
+      },
+      {
+        title: "O Poço",
+        year: 2019,
+        country: "Espanha",
+        description: "Prisioneiros vivem em um sistema vertical onde comida desce por plataformas e a desigualdade domina.",
+        axis: "Pobreza e Exclusão Social",
+        hint: "Sistema cruel, hierarquia, fome.",
+        explanation: "O filme simboliza desigualdade extrema e como sistemas injustos produzem violência e egoísmo."
+      },
+      {
+        title: "Não Olhe Pra Cima",
+        year: 2021,
+        country: "EUA",
+        description: "Cientistas tentam alertar sobre um meteoro, mas enfrentam negacionismo político e mídia superficial.",
+        axis: "Negacionismo e Manipulação Midiática",
+        hint: "Ciência ignorada, mídia ridícula, política.",
+        explanation: "O filme critica como interesses políticos e midiáticos ignoram crises reais."
+      },
+      {
+        title: "Central do Brasil",
+        year: 1998,
+        country: "Brasil",
+        description: "Uma mulher e um menino atravessam o país, revelando abandono, pobreza e esperança.",
+        axis: "Educação e Desigualdade",
+        hint: "Infância vulnerável e exclusão social.",
+        explanation: "O filme retrata desigualdade social e como a falta de acesso a direitos básicos afeta vidas."
+      },
+      {
+        title: "Bacurau",
+        year: 2019,
+        country: "Brasil",
+        description: "Uma comunidade do sertão enfrenta invasores e revela resistência contra exploração externa.",
+        axis: "Colonialismo e Resistência Cultural",
+        hint: "Comunidade atacada, dominação, resistência.",
+        explanation: "O filme critica exploração e violência colonialista, mostrando resistência popular."
+      },
+      {
+        title: "Her",
+        year: 2013,
+        country: "EUA",
+        description: "Um homem se apaixona por um sistema operacional, revelando solidão e relações modernas.",
+        axis: "Tecnologia e Solidão",
+        hint: "Relacionamento com IA, isolamento emocional.",
+        explanation: "O filme reflete como tecnologia pode substituir relações humanas e intensificar solidão."
+      },
+      {
+        title: "Ex Machina",
+        year: 2014,
+        country: "EUA",
+        description: "Um programador testa uma IA humanoide e descobre manipulação, poder e ética questionável.",
+        axis: "Ética Científica e Inteligência Artificial",
+        hint: "IA consciente, controle e manipulação.",
+        explanation: "O filme discute limites éticos da tecnologia e relações de poder na criação de IA."
+      },
+      {
+        title: "O Menino que Descobriu o Vento",
+        year: 2019,
+        country: "Malawi",
+        description: "Um garoto usa conhecimento para construir uma turbina e salvar sua comunidade da fome.",
+        axis: "Educação como Transformação Social",
+        hint: "Inovação, estudo, pobreza rural.",
+        explanation: "O filme mostra como educação e ciência podem gerar soluções sociais e mudar realidades."
+      },
+      {
+        title: "A Lista de Schindler",
+        year: 1993,
+        country: "EUA",
+        description: "Durante o Holocausto, um empresário salva judeus do genocídio nazista.",
+        axis: "Direitos Humanos e Genocídio",
+        hint: "Nazismo, perseguição, extermínio.",
+        explanation: "O filme retrata o Holocausto e a violação extrema de direitos humanos."
+      },
+      {
+        title: "Tropa de Elite",
+        year: 2007,
+        country: "Brasil",
+        description: "Um capitão do BOPE enfrenta crime e corrupção policial em meio ao caos urbano.",
+        axis: "Corrupção e Violência Urbana",
+        hint: "Polícia, crime e corrupção estrutural.",
+        explanation: "O filme expõe como violência urbana se conecta com corrupção e falhas do Estado."
+      },
+      {
+        title: "Oppenheimer",
+        year: 2023,
+        country: "EUA",
+        description: "A história do criador da bomba atômica e os dilemas éticos de ciência e guerra.",
+        axis: "Ciência, Ética e Guerra",
+        hint: "Bomba nuclear, poder e consequências.",
+        explanation: "O filme mostra o conflito entre avanço científico e impacto destrutivo na humanidade."
+      }
+    ];
+
+    const axisPool = [
+      "Meio Ambiente e Sustentabilidade",
+      "Política e Autoritarismo",
+      "Educação e Desigualdade",
+      "Racismo e Direitos Civis",
+      "Pobreza e Exclusão Social",
+      "Saúde Mental e Exclusão Social",
+      "Tecnologia e Controle Social",
+      "Trabalho e Exploração",
+      "Migração e Refugiados",
+      "Feminismo e Gênero",
+      "Violência e Segurança Pública",
+      "Mídia e Poder Institucional",
+      "Psicologia de Massas e Fascismo",
+      "Colonialismo e Resistência Cultural",
+      "Tecnologia e Solidão",
+      "Ética Científica e Inteligência Artificial",
+      "Educação como Transformação Social",
+      "Direitos Humanos e Genocídio",
+      "Corrupção e Violência Urbana",
+      "Ciência, Ética e Guerra",
+      "Negacionismo e Manipulação Midiática"
+    ];
+
+    let currentIndex = 0;
+    let score = 0;
+    let hits = 0;
+    let miss = 0;
+    let hintUsed = false;
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function renderMovie() {
+      hintUsed = false;
+      document.getElementById("feedbackBox").innerHTML = "";
+
+      const movie = movies[currentIndex];
+
+      document.getElementById("movieTitle").innerText = movie.title;
+      document.getElementById("movieMeta").innerText = `${movie.year} • ${movie.country}`;
+      document.getElementById("movieDesc").innerText = movie.description;
+      document.getElementById("movieHintTag").innerText = "Dica: Clique em \"Mostrar pista\"";
+
+      document.getElementById("round").innerText = currentIndex + 1;
+      document.getElementById("score").innerText = score;
+      document.getElementById("hits").innerText = hits;
+      document.getElementById("miss").innerText = miss;
+
+      generateOptions(movie.axis);
+    }
+
+    function generateOptions(correctAxis) {
+      let options = [correctAxis];
+
+      let pool = axisPool.filter(a => a !== correctAxis);
+      shuffle(pool);
+
+      while (options.length < 4) {
+        options.push(pool.pop());
+      }
+
+      shuffle(options);
+
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+
+      options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.innerText = opt;
+        btn.onclick = () => checkAnswer(opt);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      const movie = movies[currentIndex];
+      const feedback = document.getElementById("feedbackBox");
+
+      if (selected === movie.axis) {
+        hits++;
+
+        let pointsEarned = hintUsed ? 1 : 2;
+        score += pointsEarned;
+
+        feedback.innerHTML = `
+          <div class="feedback good">
+            <b>✅ Acertou!</b><br><br>
+            <b>Eixo correto:</b> ${movie.axis}<br>
+            <b>+${pointsEarned} pontos</b><br><br>
+            <b>Justificativa:</b> ${movie.explanation}
+          </div>
+        `;
+      } else {
+        miss++;
+        feedback.innerHTML = `
+          <div class="feedback bad">
+            <b>❌ Errou!</b><br><br>
+            <b>Você escolheu:</b> ${selected}<br>
+            <b>Resposta correta:</b> ${movie.axis}<br><br>
+            <b>Por quê?</b> ${movie.explanation}
+          </div>
+        `;
+      }
+
+      document.getElementById("score").innerText = score;
+      document.getElementById("hits").innerText = hits;
+      document.getElementById("miss").innerText = miss;
+
+      disableButtons();
+    }
+
+    function disableButtons() {
+      const buttons = document.querySelectorAll("#options button");
+      buttons.forEach(btn => btn.disabled = true);
+      buttons.forEach(btn => btn.style.opacity = 0.6);
+    }
+
+    function nextMovie() {
+      currentIndex++;
+
+      if (currentIndex >= movies.length) {
+        showFinalScreen();
+        return;
+      }
+
+      renderMovie();
+    }
+
+    function showHint() {
+      const movie = movies[currentIndex];
+      hintUsed = true;
+      document.getElementById("movieHintTag").innerText = "🔍 Pista: " + movie.hint;
+    }
+
+    function showAnswer() {
+      const movie = movies[currentIndex];
+      const feedback = document.getElementById("feedbackBox");
+
+      feedback.innerHTML = `
+        <div class="feedback bad">
+          <b>👀 Resposta revelada</b><br><br>
+          <b>Eixo correto:</b> ${movie.axis}<br><br>
+          <b>Justificativa:</b> ${movie.explanation}<br><br>
+          <span class="small">Sim, você trapaceou. Mas pelo menos aprendeu.</span>
+        </div>
+      `;
+
+      disableButtons();
+    }
+
+    function showFinalScreen() {
+      document.getElementById("options").innerHTML = "";
+      document.getElementById("movieTitle").innerText = "Fim do jogo 🎬";
+      document.getElementById("movieMeta").innerText = "";
+      document.getElementById("movieDesc").innerText =
+        `Você terminou as 20 rodadas. Agora você tem repertório suficiente pra parecer inteligente em qualquer redação.`;
+
+      document.getElementById("feedbackBox");
+      feedback.innerHTML = `
+        <div class="feedback good">
+          <b>🏆 Resultado Final</b><br><br>
+          <b>Pontuação:</b> ${score}<br>
+          <b>Acertos:</b> ${hits}<br>
+          <b>Erros:</b> ${miss}<br><br>
+          <b>Status:</b> ${getRanking()}
+        </div>
+      `;
+    }
+
+    function getRanking() {
+      if (score >= 30) return "Crítico de cinema disfarçado de estudante.";
+      if (score >= 22) return "Boa argumentação. Já dá pra humilhar em debate.";
+      if (score >= 15) return "Sobrevive numa redação, mas sem ousadia.";
+      return "Você assistiu os filmes dormindo. Volte duas casas.";
+    }
+
+    function restartGame() {
+      currentIndex = 0;
+      score = 0;
+      hits = 0;
+      miss = 0;
+      hintUsed = false;
+      renderMovie();
+    }
+
+    shuffle(movies);
+    renderMovie();
+  </script>
+</body>
+</html>
