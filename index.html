@@ -1,628 +1,199 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CineConexões — Quiz Avançado</title>
-
-  <style>
-    :root {
-      --bg: #0b0d12;
-      --card: #141824;
-      --text: #e9ecf1;
-      --muted: #a8b0c2;
-      --accent: #7c5cff;
-      --accent2: #27d3a2;
-      --danger: #ff4d6d;
-      --border: rgba(255,255,255,0.08);
-    }
-
-    * {
-      box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      background: radial-gradient(circle at top, #15192b, var(--bg));
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    header {
-      padding: 30px 20px 10px;
-      text-align: center;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 2rem;
-      letter-spacing: 1px;
-    }
-
-    header p {
-      margin-top: 10px;
-      color: var(--muted);
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.5;
-    }
-
-    main {
-      max-width: 1050px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    .card {
-      background: rgba(20,24,36,0.9);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 20px;
-      box-shadow: 0px 10px 30px rgba(0,0,0,0.25);
-    }
-
-    .card h2 {
-      margin: 0 0 10px;
-      font-size: 1.2rem;
-    }
-
-    .card p {
-      color: var(--muted);
-      line-height: 1.5;
-      margin-top: 6px;
-    }
-
-    .question-type {
-      display: inline-block;
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      background: rgba(124,92,255,0.18);
-      border: 1px solid rgba(124,92,255,0.4);
-      margin-bottom: 10px;
-      color: var(--text);
-    }
-
-    .movie-title {
-      font-size: 1.4rem;
-      margin-bottom: 5px;
-    }
-
-    .movie-meta {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
-
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    button {
-      border: none;
-      padding: 12px 14px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.2s;
-      background: rgba(255,255,255,0.05);
-      color: var(--text);
-      border: 1px solid var(--border);
-      text-align: left;
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-      border-color: rgba(124,92,255,0.6);
-    }
-
-    button:disabled {
-      cursor: not-allowed;
-      opacity: 0.55;
-      transform: none;
-    }
-
-    .btn-primary {
-      background: linear-gradient(90deg, var(--accent), #4c8dff);
-      border: none;
-      color: white;
-      text-align: center;
-    }
-
-    .btn-danger {
-      background: linear-gradient(90deg, var(--danger), #ff884d);
-      border: none;
-      color: white;
-      text-align: center;
-    }
-
-    .score-box {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-      padding: 10px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border);
-    }
-
-    .score-box span {
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .score-box strong {
-      color: var(--text);
-    }
-
-    .feedback {
-      margin-top: 15px;
-      padding: 14px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.03);
-      line-height: 1.5;
-    }
-
-    .feedback.good {
-      border-color: rgba(39,211,162,0.5);
-    }
-
-    .feedback.bad {
-      border-color: rgba(255,77,109,0.5);
-    }
-
-    .small {
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-top: 20px;
-    }
-
-    @media (max-width: 900px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineConexões - Repertório para Redação</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <header>
-    <h1>🎬 CineConexões — Quiz Avançado</h1>
-    <p>
-      Aqui não tem pergunta fácil.  
-      Você vai relacionar filmes com eixos temáticos, identificar padrões e escolher justificativas.
-      É repertório na marra.
-    </p>
-  </header>
 
-  <main>
-    <div class="card score-box">
-      <span>Rodada: <strong id="round">1</strong> / 20</span>
-      <span>Pontuação: <strong id="score">0</strong></span>
-      <span>Acertos: <strong id="hits">0</strong></span>
-      <span>Erros: <strong id="miss">0</strong></span>
+<!-- SCREEN: HOME -->
+<div id="screen-home" class="screen active">
+  <div class="home-container">
+    <div class="home-logo-area">
+      <div class="home-logo-icon"><i class="fa-solid fa-clapperboard"></i></div>
+      <h1 class="home-title">CineConexões</h1>
+      <p class="home-subtitle">Domine o repertório de filmes e arrase nas redações!</p>
     </div>
-
-    <div class="grid">
-      <div class="card">
-        <div class="question-type" id="questionType">Carregando...</div>
-        <h2>📌 Enunciado</h2>
-        <p id="questionText"></p>
-
-        <div style="margin-top:15px;">
-          <h2>🎞️ Contexto</h2>
-          <div class="movie-title" id="movieTitle">---</div>
-          <div class="movie-meta" id="movieMeta"></div>
-          <p id="movieDesc"></p>
-        </div>
-
-        <div style="margin-top:15px; display:flex; gap:10px; flex-wrap:wrap;">
-          <button onclick="showHint()">🔍 Mostrar pista</button>
-          <button onclick="revealAnswer()" class="btn-danger">👀 Revelar resposta</button>
-        </div>
-
-        <p class="small" id="hintBox" style="margin-top:12px;"></p>
-      </div>
-
-      <div class="card">
-        <h2>🧠 Opções</h2>
-        <p class="small">Escolha com cuidado. Algumas opções são armadilhas disfarçadas de inteligentes.</p>
-
-        <div class="options" id="options"></div>
-        <div id="feedbackBox"></div>
-
-        <div style="margin-top:15px;">
-          <button class="btn-primary" onclick="nextRound()">➡️ Próxima rodada</button>
-          <button onclick="restartGame()">🔁 Reiniciar</button>
-        </div>
-      </div>
+    <div class="home-stats-banner">
+      <div class="hstat"><span class="hstat-val" id="home-best-score">0</span><span class="hstat-label">Recorde</span></div>
+      <div class="hstat"><span class="hstat-val" id="home-games-played">0</span><span class="hstat-label">Jogos</span></div>
+      <div class="hstat"><span class="hstat-val" id="home-best-streak">0</span><span class="hstat-label">Streak</span></div>
     </div>
-
-    <div class="card" style="margin-top:20px;">
-      <h2>📚 Objetivo pedagógico</h2>
-      <p>
-        O jogo treina repertório cultural e habilidade argumentativa ao forçar o jogador a identificar
-        crítica social, contexto histórico e temas estruturais em filmes.
-      </p>
-      <p class="small">
-        Isso pode ser usado como repertório sociocultural em redações, seminários e debates.
-      </p>
+    <div class="home-modes">
+      <h2 class="home-section-title">Escolha o Modo</h2>
+      <button class="mode-card selected" id="mode-full" onclick="selectMode('full')">
+        <i class="fa-solid fa-film"></i>
+        <div><strong>Jogo Completo</strong><span>20 questões · todos os temas</span></div>
+        <span class="mode-check" id="check-full"><i class="fa-solid fa-check"></i></span>
+      </button>
+      <button class="mode-card" id="mode-quick" onclick="selectMode('quick')">
+        <i class="fa-solid fa-bolt"></i>
+        <div><strong>Rodada Rápida</strong><span>5 questões · aleatorizado</span></div>
+        <span class="mode-check" id="check-quick"></span>
+      </button>
+      <button class="mode-card" id="mode-survival" onclick="selectMode('survival')">
+        <i class="fa-solid fa-skull"></i>
+        <div><strong>Sobrevivência</strong><span>Erre 3 = fim de jogo</span></div>
+        <span class="mode-check" id="check-survival"></span>
+      </button>
+      <button class="mode-card" id="mode-daily" onclick="selectMode('daily')">
+        <i class="fa-solid fa-calendar-day" style="color: var(--accent-purple-light);"></i>
+        <div><strong>Desafio Diário</strong><span>1 nova questão por dia</span></div>
+        <span class="mode-check" id="check-daily"></span>
+      </button>
     </div>
+    <button class="btn-start" onclick="startGame()"><i class="fa-solid fa-play"></i> Começar</button>
+    <button class="btn-secondary-home" onclick="showScreen('screen-glossary')"><i class="fa-solid fa-book-open"></i> Glossário de Filmes</button>
+    <button class="btn-secondary-home" onclick="showScreen('screen-stats')"><i class="fa-solid fa-chart-line"></i> Estatísticas</button>
+  </div>
+</div>
 
-  </main>
-
-  <footer>
-    CineConexões — Quiz Avançado | Agora sim isso parece um trabalho sério.
-  </footer>
-
-  <script>
-    const movies = [
-      { title:"Parasita", year:2019, country:"Coreia do Sul", desc:"Uma família pobre se infiltra na casa de uma família rica, expondo desigualdades sociais.", axis1:"Desigualdade Social", axis2:"Trabalho e Exploração", hint:"Escadas, privilégios e invisibilidade social." },
-      { title:"Wall-E", year:2008, country:"EUA", desc:"Um robô vive sozinho em uma Terra tomada pelo lixo e consumismo humano.", axis1:"Meio Ambiente", axis2:"Consumismo", hint:"Lixo, abandono e crítica ao consumo infinito." },
-      { title:"Coringa", year:2019, country:"EUA", desc:"Um homem marginalizado colapsa mentalmente e vira símbolo de caos social.", axis1:"Saúde Mental", axis2:"Exclusão Social", hint:"Abandono institucional e violência urbana." },
-      { title:"O Dilema das Redes", year:2020, country:"EUA", desc:"Documentário sobre como redes sociais manipulam comportamento e lucram com atenção.", axis1:"Tecnologia e Controle Social", axis2:"Mídia e Manipulação", hint:"Algoritmos e vício em dopamina." },
-      { title:"Jogos Vorazes", year:2012, country:"EUA", desc:"Uma jovem desafia um regime autoritário que usa violência como entretenimento.", axis1:"Autoritarismo", axis2:"Propaganda e Controle", hint:"Jogos como instrumento de medo." },
-      { title:"Cidade de Deus", year:2002, country:"Brasil", desc:"A vida na favela marcada por crime, desigualdade e ausência do Estado.", axis1:"Violência Urbana", axis2:"Desigualdade Social", hint:"O crime como consequência de abandono." },
-      { title:"Que Horas Ela Volta?", year:2015, country:"Brasil", desc:"Uma empregada doméstica enfrenta barreiras sociais ao receber sua filha na casa dos patrões.", axis1:"Trabalho e Exploração", axis2:"Desigualdade Social", hint:"Casa grande e senzala moderna." },
-      { title:"12 Anos de Escravidão", year:2013, country:"EUA", desc:"Um homem negro livre é sequestrado e vendido como escravo.", axis1:"Racismo Estrutural", axis2:"Direitos Humanos", hint:"Violência racial e desumanização." },
-      { title:"A Onda", year:2008, country:"Alemanha", desc:"Experimento escolar cria um movimento autoritário e fora de controle.", axis1:"Fascismo", axis2:"Psicologia de Massas", hint:"Obediência e identidade coletiva." },
-      { title:"Spotlight", year:2015, country:"EUA", desc:"Jornalistas investigam abusos encobertos por instituições poderosas.", axis1:"Mídia e Poder", axis2:"Corrupção Institucional", hint:"O jornalismo contra o silêncio." },
-      { title:"O Poço", year:2019, country:"Espanha", desc:"Prisioneiros vivem num sistema vertical onde comida desce por plataformas.", axis1:"Exclusão Social", axis2:"Desigualdade Social", hint:"A lógica do 'quem tem come'." },
-      { title:"Não Olhe Pra Cima", year:2021, country:"EUA", desc:"Cientistas tentam alertar sobre um meteoro, mas enfrentam negacionismo e mídia superficial.", axis1:"Negacionismo", axis2:"Manipulação Midiática", hint:"Crise real tratada como meme." },
-      { title:"Central do Brasil", year:1998, country:"Brasil", desc:"Uma mulher e um menino atravessam o Brasil e encontram abandono e desigualdade.", axis1:"Exclusão Social", axis2:"Educação e Cidadania", hint:"Infância vulnerável e desigualdade estrutural." },
-      { title:"Bacurau", year:2019, country:"Brasil", desc:"Comunidade do sertão enfrenta invasores e resiste contra exploração externa.", axis1:"Colonialismo", axis2:"Resistência Cultural", hint:"Violência estrangeira e identidade local." },
-      { title:"Her", year:2013, country:"EUA", desc:"Um homem se apaixona por um sistema operacional, revelando solidão moderna.", axis1:"Tecnologia e Solidão", axis2:"Relações Humanas", hint:"Amor digital e vazio existencial." },
-      { title:"Ex Machina", year:2014, country:"EUA", desc:"Um programador testa uma IA humanoide e enfrenta dilemas éticos e manipulação.", axis1:"Ética na Tecnologia", axis2:"Controle e Poder", hint:"Quem controla quem?" },
-      { title:"O Menino que Descobriu o Vento", year:2019, country:"Malawi", desc:"Um garoto constrói uma turbina e salva sua vila da fome usando ciência.", axis1:"Educação Transformadora", axis2:"Pobreza", hint:"Ciência como ferramenta social." },
-      { title:"A Lista de Schindler", year:1993, country:"EUA", desc:"Durante o Holocausto, um homem salva judeus do genocídio nazista.", axis1:"Genocídio", axis2:"Direitos Humanos", hint:"Nazismo e perseguição sistemática." },
-      { title:"Tropa de Elite", year:2007, country:"Brasil", desc:"Capitão do BOPE enfrenta crime e corrupção dentro do sistema.", axis1:"Violência Urbana", axis2:"Corrupção Institucional", hint:"Sistema falho e brutalidade." },
-      { title:"Oppenheimer", year:2023, country:"EUA", desc:"A criação da bomba atômica e os dilemas morais da ciência na guerra.", axis1:"Ciência e Ética", axis2:"Guerra e Poder", hint:"Progresso científico com custo humano." }
-    ];
-
-    const axisList = [
-      "Desigualdade Social",
-      "Trabalho e Exploração",
-      "Meio Ambiente",
-      "Consumismo",
-      "Saúde Mental",
-      "Exclusão Social",
-      "Tecnologia e Controle Social",
-      "Mídia e Manipulação",
-      "Autoritarismo",
-      "Propaganda e Controle",
-      "Violência Urbana",
-      "Racismo Estrutural",
-      "Direitos Humanos",
-      "Fascismo",
-      "Psicologia de Massas",
-      "Mídia e Poder",
-      "Corrupção Institucional",
-      "Negacionismo",
-      "Colonialismo",
-      "Resistência Cultural",
-      "Tecnologia e Solidão",
-      "Relações Humanas",
-      "Ética na Tecnologia",
-      "Controle e Poder",
-      "Educação Transformadora",
-      "Pobreza",
-      "Genocídio",
-      "Ciência e Ética",
-      "Guerra e Poder",
-      "Educação e Cidadania"
-    ];
-
-    const questionModes = [
-      "Escolha o eixo principal",
-      "Escolha o melhor par de eixos",
-      "Qual filme combina com o eixo?",
-      "Qual justificativa está mais correta?",
-      "Pergunta armadilha (eixo parecido)"
-    ];
-
-    let score = 0;
-    let hits = 0;
-    let miss = 0;
-    let round = 0;
-    let hintUsed = false;
-    let currentQuestion = null;
-
-    function shuffle(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    }
-
-    function pickRandomDifferentMovie(excludeIndex) {
-      let idx;
-      do {
-        idx = Math.floor(Math.random() * movies.length);
-      } while (idx === excludeIndex);
-      return idx;
-    }
-
-    function updateScoreboard() {
-      document.getElementById("round").innerText = round + 1;
-      document.getElementById("score").innerText = score;
-      document.getElementById("hits").innerText = hits;
-      document.getElementById("miss").innerText = miss;
-    }
-
-    function disableOptions() {
-      document.querySelectorAll("#options button").forEach(b => b.disabled = true);
-    }
-
-    function renderRound() {
-      hintUsed = false;
-      document.getElementById("feedbackBox").innerHTML = "";
-      document.getElementById("hintBox").innerText = "";
-
-      updateScoreboard();
-
-      const movie = movies[round];
-      const mode = questionModes[round % questionModes.length];
-
-      document.getElementById("questionType").innerText = "Modo: " + mode;
-
-      document.getElementById("movieTitle").innerText = movie.title;
-      document.getElementById("movieMeta").innerText = `${movie.year} • ${movie.country}`;
-      document.getElementById("movieDesc").innerText = movie.desc;
-
-      if (mode === "Escolha o eixo principal") {
-        currentQuestion = {
-          mode,
-          answer: movie.axis1,
-          explanation: `O eixo principal é "${movie.axis1}", pois é o tema dominante do conflito do filme.`,
-          hint: movie.hint
-        };
-
-        document.getElementById("questionText").innerText =
-          "Qual eixo temático representa melhor a crítica central desse filme?";
-
-        generateAxisOptions(movie.axis1);
-
-      } else if (mode === "Escolha o melhor par de eixos") {
-        const correctPair = `${movie.axis1} + ${movie.axis2}`;
-
-        let fakePair1 = `${movie.axis1} + ${randomAxisExcept([movie.axis1, movie.axis2])}`;
-        let fakePair2 = `${randomAxisExcept([movie.axis1, movie.axis2])} + ${movie.axis2}`;
-        let fakePair3 = `${randomAxisExcept([movie.axis1, movie.axis2])} + ${randomAxisExcept([movie.axis1, movie.axis2])}`;
-
-        let options = shuffle([correctPair, fakePair1, fakePair2, fakePair3]);
-
-        currentQuestion = {
-          mode,
-          answer: correctPair,
-          explanation: `O filme trabalha dois eixos: "${movie.axis1}" e "${movie.axis2}". Eles se complementam na crítica social.`,
-          hint: movie.hint
-        };
-
-        document.getElementById("questionText").innerText =
-          "Esse filme se encaixa melhor em qual combinação de dois eixos temáticos?";
-
-        generateCustomOptions(options);
-
-      } else if (mode === "Qual filme combina com o eixo?") {
-        const axisTarget = movie.axis1;
-
-        const wrong1 = movies[pickRandomDifferentMovie(round)];
-        const wrong2 = movies[pickRandomDifferentMovie(round)];
-        const wrong3 = movies[pickRandomDifferentMovie(round)];
-
-        let options = shuffle([movie.title, wrong1.title, wrong2.title, wrong3.title]);
-
-        currentQuestion = {
-          mode,
-          answer: movie.title,
-          explanation: `O filme "${movie.title}" representa bem o eixo "${axisTarget}".`,
-          hint: `O eixo envolve: ${axisTarget}`
-        };
-
-        document.getElementById("questionText").innerText =
-          `Qual filme abaixo se encaixa melhor no eixo temático: "${axisTarget}"?`;
-
-        generateCustomOptions(options, true);
-
-      } else if (mode === "Qual justificativa está mais correta?") {
-        const correct = `O filme critica diretamente "${movie.axis1}" ao mostrar situações ligadas a desigualdade, poder ou exclusão.`;
-
-        const wrongA = `O filme fala principalmente sobre aventuras e entretenimento, sem relação com crítica social.`;
-        const wrongB = `O eixo central é "Meio Ambiente", porque sempre dá pra encaixar isso em qualquer filme.`;
-        const wrongC = `O filme é sobre ação, então o tema principal é apenas "Violência", independentemente do contexto.`;
-
-        let options = shuffle([correct, wrongA, wrongB, wrongC]);
-
-        currentQuestion = {
-          mode,
-          answer: correct,
-          explanation: `A justificativa correta conecta o filme com o eixo real: "${movie.axis1}".`,
-          hint: movie.hint
-        };
-
-        document.getElementById("questionText").innerText =
-          "Qual justificativa abaixo faz a melhor conexão entre o filme e um eixo temático?";
-
-        generateCustomOptions(options);
-
-      } else if (mode === "Pergunta armadilha (eixo parecido)") {
-        // eixo parecido propositalmente
-        let trapAxis = movie.axis1;
-        let closeAxis = movie.axis2;
-
-        let wrong1 = randomAxisExcept([trapAxis, closeAxis]);
-        let wrong2 = randomAxisExcept([trapAxis, closeAxis]);
-
-        let options = shuffle([trapAxis, closeAxis, wrong1, wrong2]);
-
-        currentQuestion = {
-          mode,
-          answer: trapAxis,
-          explanation: `O eixo correto é "${trapAxis}". "${closeAxis}" parece certo, mas é secundário nesse filme.`,
-          hint: "Cuidado: um eixo secundário está tentando te enganar."
-        };
-
-        document.getElementById("questionText").innerText =
-          "Qual eixo é realmente o principal? (tem um eixo secundário tentando te confundir)";
-
-        generateCustomOptions(options);
-      }
-    }
-
-    function randomAxisExcept(exclude) {
-      let candidate;
-      do {
-        candidate = axisList[Math.floor(Math.random() * axisList.length)];
-      } while (exclude.includes(candidate));
-      return candidate;
-    }
-
-    function generateAxisOptions(correctAxis) {
-      let options = [correctAxis];
-      let pool = axisList.filter(a => a !== correctAxis);
-      shuffle(pool);
-
-      while (options.length < 4) {
-        options.push(pool.pop());
-      }
-
-      shuffle(options);
-      generateCustomOptions(options);
-    }
-
-    function generateCustomOptions(options, isMovieTitles=false) {
-      const div = document.getElementById("options");
-      div.innerHTML = "";
-
-      options.forEach(opt => {
-        const btn = document.createElement("button");
-        btn.innerText = opt;
-        btn.onclick = () => checkAnswer(opt);
-        div.appendChild(btn);
-      });
-    }
-
-    function checkAnswer(selected) {
-      const feedback = document.getElementById("feedbackBox");
-
-      if (selected === currentQuestion.answer) {
-        hits++;
-        let pts = hintUsed ? 2 : 3;
-        score += pts;
-
-        feedback.innerHTML = `
-          <div class="feedback good">
-            <b>✅ Acertou.</b><br><br>
-            <b>+${pts} pontos</b><br><br>
-            ${currentQuestion.explanation}
+<!-- SCREEN: QUIZ -->
+<div id="screen-quiz" class="screen">
+  <div class="app-container">
+    <header class="top-bar">
+      <button class="back-btn" onclick="confirmQuit()"><i class="fa-solid fa-chevron-left"></i></button>
+      <div class="logo"><i class="fa-solid fa-clapperboard"></i><span>CineConexões</span></div>
+      <div class="score-badge">⭐ <span id="score">0</span></div>
+    </header>
+    <div class="stats-row">
+      <div class="stat-box"><span class="stat-label">ROUND</span><span class="stat-value" id="round-display">01/20</span></div>
+      <div class="stat-box hits"><span class="stat-label">HITS</span><span class="stat-value" id="hits-display">00</span></div>
+      <div class="stat-box misses"><span class="stat-label">MISSES</span><span class="stat-value" id="misses-display">00</span></div>
+      <div class="stat-box timer-box"><span class="stat-label">TEMPO</span><span class="stat-value" id="timer-display">30</span></div>
+    </div>
+    <div class="progress-bar-container"><div class="progress-bar" id="progress-bar"></div></div>
+    <div id="hearts-row" class="hearts-row" style="display:none">
+      <span id="heart-1"><i class="fa-solid fa-heart"></i></span>
+      <span id="heart-2"><i class="fa-solid fa-heart"></i></span>
+      <span id="heart-3"><i class="fa-solid fa-heart"></i></span>
+    </div>
+    <div class="main-content-wrapper">
+      <main class="question-card">
+        <div class="card-header">
+          <span class="mode-badge" id="theme-badge">MODO: TEMA</span>
+          <div class="streak-badge" id="streak-badge" style="display:none"><i class="fa-solid fa-fire"></i> <span id="streak-count">0</span></div>
+        </div>
+        <h2 class="question-text" id="question-text">Carregando...</h2>
+        <div class="movie-banner" id="movie-banner">
+          <div class="movie-info-overlay" id="movie-info" style="opacity:0">
+            <h3 id="movie-title">Título</h3>
+            <p id="movie-meta">Ano • País</p>
           </div>
-        `;
-      } else {
-        miss++;
-        feedback.innerHTML = `
-          <div class="feedback bad">
-            <b>❌ Errou.</b><br><br>
-            <b>Sua resposta:</b> ${selected}<br>
-            <b>Correta:</b> ${currentQuestion.answer}<br><br>
-            ${currentQuestion.explanation}
-          </div>
-        `;
-      }
-
-      updateScoreboard();
-      disableOptions();
-    }
-
-    function showHint() {
-      hintUsed = true;
-      document.getElementById("hintBox").innerText = "🔍 Pista: " + currentQuestion.hint;
-    }
-
-    function revealAnswer() {
-      const feedback = document.getElementById("feedbackBox");
-      feedback.innerHTML = `
-        <div class="feedback bad"><b>👀 Resposta revelada</b><br><br>
-          <b>Correta:</b> ${currentQuestion.answer}<br><br>
-          ${currentQuestion.explanation}<br><br>
-          <span class="small">Você trapaceou. Mas aprendeu. Eu acho.</span>
         </div>
-      `;
-      disableOptions();
-    }
-
-    function nextRound() {
-      round++;
-      if (round >= movies.length) {
-        showFinal();
-        return;
-      }
-      renderRound();
-    }
-
-    function showFinal() {
-      document.getElementById("questionType").innerText = "Fim do jogo";
-      document.getElementById("questionText").innerText =
-        "Você terminou as 20 rodadas. Agora tem repertório suficiente pra parecer culto sem sofrer tanto.";
-
-      document.getElementById("movieTitle").innerText = "🏁 Resultado Final";
-      document.getElementById("movieMeta").innerText = "";
-      document.getElementById("movieDesc").innerText = "";
-
-      document.getElementById("options").innerHTML = "";
-
-      let rank = "Você assistiu filme com o olho fechado.";
-      if (score >= 50) rank = "Crítico social nível ENEM nota 980.";
-      else if (score >= 40) rank = "Boa argumentação. Dá pra impressionar professor.";
-      else if (score >= 30) rank = "Ok. Você tem repertório, mas ainda sofre.";
-      else if (score >= 20) rank = "Você entende, mas ainda chuta muito.";
-
-      document.getElementById("feedbackBox").innerHTML = `
-        <div class="feedback good">
-          <b>🏆 Pontuação:</b> ${score}<br>
-          <b>Acertos:</b> ${hits}<br>
-          <b>Erros:</b> ${miss}<br><br>
-          <b>Status:</b> ${rank}
+        <div class="synopsis-box"><p id="movie-synopsis">"Sinopse..."</p></div>
+      </main>
+      <div class="right-panel">
+        <div class="options-container" id="options-container"></div>
+        <div class="explanation-box" id="explanation-box" style="display:none">
+          <div class="explanation-header"><i class="fa-solid fa-pen-nib"></i> Uso na Redação</div>
+          <p id="explanation-text"></p>
+          <button class="copy-btn" onclick="copyExplanation()"><i class="fa-regular fa-copy"></i> Copiar trecho</button>
         </div>
-      `;
-    }
+        <div class="action-buttons" id="action-buttons">
+          <button class="action-btn secondary" id="hint-btn"><i class="fa-regular fa-lightbulb"></i> DICA (-50pts)</button>
+          <button class="action-btn secondary" id="reveal-btn"><i class="fa-regular fa-eye"></i> REVELAR</button>
+        </div>
+        <div class="next-row">
+          <button class="action-btn primary full" id="next-btn" disabled>PRÓXIMA RODADA <i class="fa-solid fa-arrow-right"></i></button>
+          <button class="action-btn icon-only" id="bookmark-btn" title="Salvar filme"><i class="fa-regular fa-bookmark"></i></button>
+        </div>
+        <nav class="bottom-nav">
+          <button class="nav-item" onclick="showScreen('screen-home')"><i class="fa-solid fa-house"></i><span>Início</span></button>
+          <button class="nav-item" onclick="showScreen('screen-glossary')"><i class="fa-solid fa-book-open"></i><span>Glossário</span></button>
+          <button class="nav-item" onclick="showScreen('screen-stats')"><i class="fa-solid fa-chart-line"></i><span>Stats</span></button>
+          <button class="nav-item" onclick="confirmQuit()"><i class="fa-solid fa-xmark"></i><span>Sair</span></button>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
 
-    function restartGame() {
-      score = 0;
-      hits = 0;
-      miss = 0;
-      round = 0;
-      hintUsed = false;
-      shuffle(movies);
-      renderRound();
-    }
+<!-- SCREEN: RESULT -->
+<div id="screen-result" class="screen">
+  <div class="result-container">
+    <div class="result-icon" id="result-icon">🏆</div>
+    <h2 class="result-title" id="result-title">Fim de Jogo!</h2>
+    <p class="result-subtitle" id="result-subtitle">Você completou o quiz!</p>
+    <div class="result-stats">
+      <div class="rstat"><span class="rstat-val" id="res-score">0</span><span class="rstat-label">Pontos</span></div>
+      <div class="rstat"><span class="rstat-val" id="res-hits">0</span><span class="rstat-label">Acertos</span></div>
+      <div class="rstat"><span class="rstat-val" id="res-pct">0%</span><span class="rstat-label">Aproveitamento</span></div>
+    </div>
+    <div class="result-medal" id="result-medal"></div>
+    <div class="result-bookmarks" id="result-bookmarks"></div>
+    <div class="result-actions">
+      <button class="btn-start" onclick="startGame()"><i class="fa-solid fa-rotate-right"></i> Jogar Novamente</button>
+      <button class="btn-secondary-home" onclick="showScreen('screen-glossary')"><i class="fa-solid fa-book-open"></i> Ver Glossário</button>
+      <button class="btn-secondary-home" onclick="showScreen('screen-home')"><i class="fa-solid fa-house"></i> Início</button>
+    </div>
+  </div>
+</div>
 
-    shuffle(movies);
-    renderRound();
-  </script>
+<!-- SCREEN: GLOSSARY -->
+<div id="screen-glossary" class="screen">
+  <div class="app-container">
+    <header class="top-bar">
+      <button class="back-btn" onclick="showScreen('screen-home')"><i class="fa-solid fa-chevron-left"></i></button>
+      <div class="logo"><i class="fa-solid fa-book-open"></i><span>Glossário</span></div>
+      <div></div>
+    </header>
+    <p class="glossary-subtitle">Todos os filmes e como usá-los na redação</p>
+    <div class="glossary-filter">
+      <button class="filter-btn active" onclick="filterGlossary('all',this)">Todos</button>
+      <button class="filter-btn" onclick="filterGlossary('bookmarked',this)"><i class="fa-solid fa-bookmark"></i> Salvos</button>
+    </div>
+    <div id="glossary-list" class="glossary-list"></div>
+  </div>
+</div>
+
+<!-- SCREEN: STATS -->
+<div id="screen-stats" class="screen">
+  <div class="app-container">
+    <header class="top-bar">
+      <button class="back-btn" onclick="showScreen('screen-home')"><i class="fa-solid fa-chevron-left"></i></button>
+      <div class="logo"><i class="fa-solid fa-chart-bar"></i><span>Estatísticas</span></div>
+      <div></div>
+    </header>
+    <div class="stats-page">
+      <div class="stats-grid">
+        <div class="stat-card"><span id="st-games">0</span><label>Jogos</label></div>
+        <div class="stat-card highlight"><span id="st-best">0</span><label>Recorde</label></div>
+        <div class="stat-card"><span id="st-total-hits">0</span><label>Acertos</label></div>
+        <div class="stat-card"><span id="st-streak">0</span><label>Maior Streak</label></div>
+      </div>
+      <h3 class="stats-section-title">Temas Desbloqueados</h3>
+      <div id="theme-breakdown" class="theme-breakdown"></div>
+      <button class="btn-danger" onclick="resetStats()"><i class="fa-solid fa-trash"></i> Resetar Dados</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Quit Overlay -->
+<div id="quit-overlay" class="overlay" style="display:none">
+  <div class="overlay-box">
+    <h3>Abandonar o jogo?</h3>
+    <p>Seu progresso atual será perdido.</p>
+    <div class="overlay-actions">
+      <button class="action-btn secondary" onclick="document.getElementById('quit-overlay').style.display='none'">Continuar</button>
+      <button class="action-btn danger" onclick="goHome()">Sair</button>
+    </div>
+  </div>
+</div>
+
+<!-- Combo popup -->
+<div id="combo-popup" class="combo-popup" style="display:none"><span id="combo-text">🔥 COMBO!</span></div>
+
+<!-- Toast -->
+<div class="toast" id="hint-toast"><p id="hint-text"></p></div>
+
+<script src="questions.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
